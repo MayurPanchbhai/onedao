@@ -4,19 +4,21 @@ import { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router";
 import { Home } from "./Pages/Home";
-import { Register } from "./Pages/Register";
 import { Login } from "./Pages/Login";
-import { Verify } from "./Pages/Verify";
+import { Register } from "./Pages/Register";
+import { DataProvider } from "./Context/Datacontext";
+import { Dashboard } from "./Pages/Dashbord";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Verify />} />
-      </Routes>
+      <DataProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </DataProvider>
     </>
   );
 }

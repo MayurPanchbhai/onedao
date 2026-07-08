@@ -3,10 +3,81 @@
 #root {
   width: 100%;
   height: 100vh;
+  font-family: "Inter", sans-serif;
 }
 
 body {
   margin: 0;
   width: 100%;
   height: 100%;
+}
+
+.col-faint {
+  color: #2f2f30 !important;
+  font-weight: 600 !important ;
+}
+.borderNone {
+  border-style: none;
+}
+
+.custom-placeholder::placeholder {
+  color: #9fa2b4 !important;
+  opacity: 1 !important;
+}
+
+.custom-placeholder {
+  color: #000000;
+}
+
+/* Ensure the list item doesn't cut off our absolute positioned pseudo-elements */
+.nav-item {
+  position: relative;
+}
+
+.effect {
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.effect:hover {
+  transform: translateY(-5px); /* Lifts the card up by 5 pixels */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important; /* Deepens the shadow */
+}
+
+.custom-sidebar-btn {
+  position: relative;
+  transition: all 0.2s ease;
+}
+.custom-sidebar-btn.active-tab-style {
+  background-color: #f8f9fa !important; /* Matches bg-light */
+  color: #0d6efd !important;
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.custom-sidebar-btn.active-tab-style::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border-bottom-right-radius: 20px;
+  box-shadow: 10px 10px 0px 10px #f8f9fa;
+  pointer-events: none;
+}
+.custom-sidebar-btn.active-tab-style::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border-top-right-radius: 20px;
+  box-shadow: 10px -10px 0px 10px #f8f9fa;
+  pointer-events: none;
 }

@@ -1,26 +1,22 @@
 /** @format */
 
 import React, { useState } from "react";
-import profilePic from "../assets/bgImage.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import profilePic from "../assets/bgImage.jpg";
 
 export function Register() {
-  const [formdata, setFormdata] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [showOtpView, setShowOtpView] = useState(false);
   const [message, setMessage] = useState("");
+  const [formdata, setFormdata] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
+  // State 1: Tracks if credentials are authenticated, switching panel view on success
+  const [showOtpView, setShowOtpView] = useState(false);
+
+  // State 2: Array tracking each input value individually across your 6 OTP blocks
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormdata((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -62,6 +58,7 @@ export function Register() {
     setShowOtpView(true);
   };
 
+  // Handles updating numeric value parameters dynamically
   const handleOtpChange = (element, index) => {
     if (!/^[0-9]$/.test(element.value) && element.value !== "") return;
 
@@ -72,14 +69,25 @@ export function Register() {
     if (element.value && element.nextSibling) {
       element.nextSibling.focus();
     }
+
+    // ✅ ONLY navigate if all 6 boxes have a value filled out
+    const fullCode = newOtp.join("");
+    if (fullCode.length === 6) {
+      setMessage("Verification complete! Redirecting...");
+      setTimeout(() => {
+        navigate("/login", { replace: true });
+      }, 2000);
+    }
   };
 
-  // ✅ Added missing backspace key handler to prevent screen errors
+  // Handles moving focus backward when hitting backspace on an empty field
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (!otp[index] && e.target.previousSibling) {
+        // If current box is empty, jump focus back and focus it
         e.target.previousSibling.focus();
       } else {
+        // Clear current box value
         let newOtp = [...otp];
         newOtp[index] = "";
         setOtp(newOtp);
@@ -87,23 +95,15 @@ export function Register() {
     }
   };
 
-  // ✅ Added missing onSubmit processing function to stop execution crashes
   const handleOtpSubmit = (e) => {
     e.preventDefault();
     const fullCode = otp.join("");
-
     if (fullCode.length < 6) {
       setMessage("Please fill out the full 6-digit verification code");
       return;
     }
-
-    setMessage("User created successfully! Redirecting...");
-
-    setTimeout(() => {
-      setFormdata({ email: "", password: "", confirmPassword: "" });
-      setOtp(new Array(6).fill(""));
-      navigate("/login", { replace: true });
-    }, 1200);
+    console.log("Verifying token hash string:", fullCode);
+    // Add your API submission logic here
   };
 
   return (
@@ -124,21 +124,24 @@ export function Register() {
           </div>
 
           {/* Right Side: Form Panel Area Container */}
-          <div className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5">
-            <div className="w-100 position-relative">
+          {/* Added minHeight here to prevent the panel and image from shrinking during OTP view */}
+          <div
+            className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5"
+            style={{ minHeight: "550px" }}>
+            <div className="w-100 position-relative ">
               {!showOtpView ? (
                 <>
-                  <h2
-                    className="fw-bold text-dark mb-2"
-                    style={{ fontSize: "1.85rem" }}>
+                  <h2 className="fw-bold text-dark fs-4 mb-2 text-center">
                     Register to Admin Panel
                   </h2>
                   {!message ? (
-                    <p className="text-danger small">
-                      Enter your details below to create an account
+                    <p
+                      className=" mt-3 small text-center"
+                      style={{ fontSize: "0.88rem", color: "#9FA2B4" }}>
+                      Enter your phone number and password below
                     </p>
                   ) : (
-                    <p className="text-danger small">{message}</p>
+                    <p className="text-danger small text-center  ">{message}</p>
                   )}
 
                   <form onSubmit={handleSubmit}>
@@ -154,7 +157,7 @@ export function Register() {
                         name="email"
                         value={formdata.email || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle"
+                        className="form-control py-2 px-3  border border-secondary-subtle custom-placeholder"
                         placeholder="Enter your email id"
                         style={{ borderRadius: "8px" }}
                       />
@@ -172,7 +175,7 @@ export function Register() {
                         name="password"
                         value={formdata.password || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle"
+                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                         placeholder="Enter your password"
                         style={{ borderRadius: "8px" }}
                       />
@@ -190,7 +193,7 @@ export function Register() {
                         name="confirmPassword"
                         value={formdata.confirmPassword || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle"
+                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                         placeholder="Enter your confirm password"
                         style={{ borderRadius: "8px" }}
                       />
@@ -206,11 +209,11 @@ export function Register() {
 
                     {/* Redirect Text Link */}
                     <div className="text-center">
-                      <span className="text-muted small">
+                      <span className=" small" style={{ color: "#9FA2B4" }}>
                         Already have an account?{" "}
                         <Link
                           to="/login"
-                          className="text-dark fw-bold text-decoration-none ms-1">
+                          className="text-dark  text-decoration-none ms-1">
                           Login
                         </Link>
                       </span>
@@ -218,22 +221,18 @@ export function Register() {
                   </form>
                 </>
               ) : (
-                /* ========================================================= */
-                /* VIEW B: OPTIMIZED NUMERIC OTP VERIFICATION PANEL          */
-                /* ========================================================= */
                 <div className="text-center px-1 py-3">
-                  <h2
-                    className="fw-bold text-dark mb-2"
-                    style={{ fontSize: "1.9rem" }}>
+                  <h2 className="fw-semibold text-dark fs-4 mb-2">
                     Verify your email
                   </h2>
                   <p
-                    className="text-muted mb-4 small"
-                    style={{ color: "#a5a5a5" }}>
-                    Enter the OTP from your register email id
+                    className=" mb-4 small fw-normal"
+                    style={{ color: "#9FA2B4" }}>
+                    Enter the OTP from your registered email id
                   </p>
 
                   <form onSubmit={handleOtpSubmit}>
+                    {/* Inline Input Box Collection Grid Wrapper */}
                     <div
                       className="d-flex justify-content-between gap-2 mb-4 mx-auto"
                       style={{ maxWidth: "360px" }}>
@@ -248,7 +247,7 @@ export function Register() {
                           onChange={(e) => handleOtpChange(e.target, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
                           onFocus={(e) => e.target.select()}
-                          className="form-control text-center p-0 fw-semibold text-dark border border-secondary-subtle"
+                          className="form-control text-center p-0 fw-semibold text-dark border border-secondary-subtle custom-placeholder"
                           style={{
                             width: "46px",
                             height: "46px",
@@ -266,17 +265,9 @@ export function Register() {
                     {/* Proceed Form Action Button */}
                     <button
                       type="submit"
-                      className="btn btn-dark w-100 py-2.5 fw-medium"
+                      className="btn btn-dark w-100 py-2.5 fw-normal"
                       style={{ borderRadius: "10px", backgroundColor: "#111" }}>
                       Proceed
-                    </button>
-
-                    {/* Return switch link */}
-                    <button
-                      type="button"
-                      onClick={() => setShowOtpView(false)}
-                      className="btn btn-link text-muted small mt-3 text-decoration-none">
-                      ← Back to Login
                     </button>
                   </form>
                 </div>

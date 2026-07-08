@@ -1,7 +1,8 @@
 /** @format */
-import React, { useState } from "react"; // Path to your background image
+import React, { useState } from "react";
 import profilePic from "../assets/bgImage.jpg";
 import { Link, useNavigate } from "react-router-dom";
+
 export function Login() {
   const [formdata, setFormdata] = useState({
     email: "",
@@ -42,13 +43,13 @@ export function Login() {
       return;
     }
 
-    setMessage("User created successfully");
-    setFormdata({ email: "", password: "" });
+    setMessage("Logged in successfully! Redirecting...");
 
     setTimeout(() => {
-      navigate("/login", { replace: true });
+      navigate("/dashboard", { replace: true }); // Updated to typical post-login route
     }, 1200);
   };
+
   return (
     <div className="container d-flex h-100 justify-content-center align-items-center bg-white p-3">
       {/* Container Card with subtle shadow and rounded corners */}
@@ -56,6 +57,7 @@ export function Login() {
         className="card border-0 shadow-lg overflow-hidden w-75"
         style={{ maxWidth: "940px", borderRadius: "24px" }}>
         <div className="row g-0 align-items-stretch">
+          {/* Left Side: Image Banner */}
           <div className="col-md-6 d-none d-md-flex position-relative">
             <img
               src={profilePic}
@@ -66,20 +68,25 @@ export function Login() {
           </div>
 
           {/* Right Side: Form Panel */}
-          <div className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5">
+          {/* Fixed height match applied here using minHeight */}
+          <div
+            className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5"
+            style={{ minHeight: "550px" }}>
             <div className="w-100 position-relative">
               {/* Header Titles */}
-              <h2
-                className="fw-bold text-dark mb-2"
-                style={{ fontSize: "1.85rem" }}>
-                Login In to Admin Panel
+              <h2 className="fw-semibold text-center text-dark mb-2 fs-4">
+                Log In to Admin Panel
               </h2>
               {!message ? (
-                <p className="text-denger  small">
+                <p
+                  className="text-center small"
+                  style={{ fontSize: "0.88rem", color: "#9FA2B4" }}>
                   Enter your email id and password below
                 </p>
               ) : (
-                <p className="text-muted  small">{message}</p>
+                <p className="text-success text-center small fw-medium">
+                  {message}
+                </p>
               )}
 
               {/* Interactive Form Elements */}
@@ -96,7 +103,7 @@ export function Login() {
                     name="email"
                     value={formdata.email || ""}
                     onChange={handleChange}
-                    className="form-control py-2 px-3 text-secondary border border-secondary-subtle"
+                    className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                     placeholder="Enter your email id"
                     style={{ borderRadius: "8px" }}
                   />
@@ -114,7 +121,7 @@ export function Login() {
                     name="password"
                     value={formdata.password || ""}
                     onChange={handleChange}
-                    className="form-control py-2 px-3 text-secondary border border-secondary-subtle"
+                    className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                     placeholder="Enter your password"
                     style={{ borderRadius: "8px" }}
                   />
@@ -130,11 +137,11 @@ export function Login() {
 
                 {/* Redirect Text Link */}
                 <div className="text-center">
-                  <span className="text-muted small">
+                  <span className="small" style={{ color: "#9FA2B4" }}>
                     Don't have an account?{" "}
                     <Link
-                      to="/register"
-                      className="text-dark fw-bold text-decoration-none ms-1">
+                      to="/"
+                      className="text-dark text-decoration-none ms-1">
                       Register
                     </Link>
                   </span>
