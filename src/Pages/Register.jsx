@@ -3,16 +3,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import profilePic from "../assets/bgImage.jpg";
+import { useData } from "../Context/Datacontext";
 
 export function Register() {
   const [message, setMessage] = useState("");
   const [formdata, setFormdata] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  // State 1: Tracks if credentials are authenticated, switching panel view on success
   const [showOtpView, setShowOtpView] = useState(false);
 
-  // State 2: Array tracking each input value individually across your 6 OTP blocks
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
   const handleChange = (e) => {
@@ -53,12 +52,15 @@ export function Register() {
       return;
     }
 
-    // Clear old errors and open the OTP view smoothly
     setMessage("");
     setShowOtpView(true);
-  };
 
-  // Handles updating numeric value parameters dynamically
+    //storing data to the localstorage for login
+    localStorage.setItem(
+      "UserLoginDetails",
+      JSON.stringify({ email: formdata.email, password: formdata.password }),
+    );
+  };
   const handleOtpChange = (element, index) => {
     if (!/^[0-9]$/.test(element.value) && element.value !== "") return;
 
@@ -70,7 +72,6 @@ export function Register() {
       element.nextSibling.focus();
     }
 
-    // ✅ ONLY navigate if all 6 boxes have a value filled out
     const fullCode = newOtp.join("");
     if (fullCode.length === 6) {
       setMessage("Verification complete! Redirecting...");
@@ -80,14 +81,11 @@ export function Register() {
     }
   };
 
-  // Handles moving focus backward when hitting backspace on an empty field
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (!otp[index] && e.target.previousSibling) {
-        // If current box is empty, jump focus back and focus it
         e.target.previousSibling.focus();
       } else {
-        // Clear current box value
         let newOtp = [...otp];
         newOtp[index] = "";
         setOtp(newOtp);
@@ -103,17 +101,14 @@ export function Register() {
       return;
     }
     console.log("Verifying token hash string:", fullCode);
-    // Add your API submission logic here
   };
 
   return (
     <div className="container d-flex h-100 justify-content-center align-items-center bg-white p-3">
-      {/* Container Card with subtle shadow and rounded corners */}
       <div
         className="card border-0 shadow-lg overflow-hidden w-75"
         style={{ maxWidth: "940px", borderRadius: "24px" }}>
         <div className="row g-0 align-items-stretch">
-          {/* Left Side: Image Banner */}
           <div className="col-md-6 d-none d-md-flex position-relative">
             <img
               src={profilePic}
@@ -123,8 +118,6 @@ export function Register() {
             />
           </div>
 
-          {/* Right Side: Form Panel Area Container */}
-          {/* Added minHeight here to prevent the panel and image from shrinking during OTP view */}
           <div
             className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5"
             style={{ minHeight: "550px" }}>
@@ -163,7 +156,6 @@ export function Register() {
                       />
                     </div>
 
-                    {/* Password Field */}
                     <div className="mb-3">
                       <label
                         className="form-label fw-bold text-uppercase tracking-wider small mb-1"
@@ -181,7 +173,6 @@ export function Register() {
                       />
                     </div>
 
-                    {/* Confirm Password Field */}
                     <div className="mb-4">
                       <label
                         className="form-label fw-bold text-uppercase tracking-wider small mb-1"
@@ -199,7 +190,6 @@ export function Register() {
                       />
                     </div>
 
-                    {/* Submit Action Button */}
                     <button
                       type="submit"
                       className="btn btn-dark w-100 py-2.5 fw-medium mb-4"
@@ -207,7 +197,6 @@ export function Register() {
                       Register
                     </button>
 
-                    {/* Redirect Text Link */}
                     <div className="text-center">
                       <span className=" small" style={{ color: "#9FA2B4" }}>
                         Already have an account?{" "}
@@ -232,7 +221,6 @@ export function Register() {
                   </p>
 
                   <form onSubmit={handleOtpSubmit}>
-                    {/* Inline Input Box Collection Grid Wrapper */}
                     <div
                       className="d-flex justify-content-between gap-2 mb-4 mx-auto"
                       style={{ maxWidth: "360px" }}>
@@ -262,7 +250,6 @@ export function Register() {
                       <p className="text-danger small mb-3">{message}</p>
                     )}
 
-                    {/* Proceed Form Action Button */}
                     <button
                       type="submit"
                       className="btn btn-dark w-100 py-2.5 fw-normal"

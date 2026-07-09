@@ -1,14 +1,129 @@
 /** @format */
 
 import { createContext, useContext, useState } from "react";
+import {
+  LayoutDashboard,
+  Newspaper,
+  UserCheck,
+  CarTaxiFront,
+  Users,
+  CircleDollarSign,
+  Globe,
+  Car,
+  GitBranch,
+  ShieldAlert,
+  SlidersHorizontal,
+} from "lucide-react";
 
 const DataContext = createContext(null);
 
 export function DataProvider({ children }) {
-  const [user, setUser] = useState([
-    { email: "mayurpanchbhai21@gmail.com", password: "123456" },
-  ]);
+  // Data for stats
+  const STATS_DATA = {
+    "Aug 2021": [
+      { month: "Jan", grade: 2.1, exams: 1 },
+      { month: "Feb", grade: 2.3, exams: 2 },
+      { month: "Mar", grade: 2.8, exams: 1 },
+      { month: "Apr", grade: 3.2, exams: 4 },
+      { month: "May", grade: 3.0, exams: 3 },
+      { month: "Jun", grade: 3.5, exams: 5 },
+      { month: "Jul", grade: 3.1, exams: 2 },
+      { month: "Aug", grade: 3.0, exams: 4 },
+      { month: "Sep", grade: 3.4, exams: 3 },
+      { month: "Oct", grade: 3.7, exams: 6 },
+      { month: "Nov", grade: 3.9, exams: 4 },
+      { month: "Dec", grade: 4.0, exams: 5 },
+    ],
+    "Sep 2021": [
+      { month: "Jan", grade: 2.5, exams: 2 },
+      { month: "Feb", grade: 2.7, exams: 3 },
+      { month: "Mar", grade: 3.0, exams: 2 },
+      { month: "Apr", grade: 3.1, exams: 5 },
+      { month: "May", grade: 3.4, exams: 4 },
+      { month: "Jun", grade: 3.2, exams: 3 },
+      { month: "Jul", grade: 3.6, exams: 6 },
+      { month: "Aug", grade: 3.5, exams: 5 },
+      { month: "Sep", grade: 3.8, exams: 7 },
+      { month: "Oct", grade: 3.9, exams: 5 },
+      { month: "Nov", grade: 4.0, exams: 6 },
+      { month: "Dec", grade: 4.2, exams: 8 },
+    ],
+    "Oct 2021": [
+      { month: "Jan", grade: 2.6, exams: 3 },
+      { month: "Feb", grade: 2.8, exams: 2 },
+      { month: "Mar", grade: 2.9, exams: 4 },
+      { month: "Apr", grade: 3.3, exams: 5 },
+      { month: "May", grade: 3.5, exams: 3 },
+      { month: "Jun", grade: 3.4, exams: 4 },
+      { month: "Jul", grade: 3.8, exams: 5 },
+      { month: "Aug", grade: 3.6, exams: 6 },
+      { month: "Sep", grade: 3.9, exams: 4 },
+      { month: "Oct", grade: 4.1, exams: 7 },
+      { month: "Nov", grade: 4.2, exams: 5 },
+      { month: "Dec", grade: 4.3, exams: 6 },
+    ],
+    "May 2022": [
+      { month: "Jan", grade: 3.0, exams: 4 },
+      { month: "Feb", grade: 3.2, exams: 3 },
+      { month: "Mar", grade: 3.1, exams: 5 },
+      { month: "Apr", grade: 3.5, exams: 6 },
+      { month: "May", grade: 3.8, exams: 8 },
+      { month: "Jun", grade: 3.6, exams: 4 },
+      { month: "Jul", grade: 3.4, exams: 3 },
+      { month: "Aug", grade: 3.7, exams: 5 },
+      { month: "Sep", grade: 3.9, exams: 6 },
+      { month: "Oct", grade: 4.0, exams: 7 },
+      { month: "Nov", grade: 4.2, exams: 5 },
+      { month: "Dec", grade: 4.5, exams: 9 },
+    ],
+    "Nov 2022": [
+      { month: "Jan", grade: 3.2, exams: 5 },
+      { month: "Feb", grade: 3.4, exams: 4 },
+      { month: "Mar", grade: 3.6, exams: 6 },
+      { month: "Apr", grade: 3.5, exams: 5 },
+      { month: "May", grade: 3.9, exams: 7 },
+      { month: "Jun", grade: 4.1, exams: 8 },
+      { month: "Jul", grade: 4.0, exams: 6 },
+      { month: "Aug", grade: 4.2, exams: 7 },
+      { month: "Sep", grade: 4.3, exams: 8 },
+      { month: "Oct", grade: 4.5, exams: 9 },
+      { month: "Nov", grade: 4.6, exams: 10 },
+      { month: "Dec", grade: 4.4, exams: 7 },
+    ],
+    "Mar 2023": [
+      { month: "Jan", grade: 3.5, exams: 6 },
+      { month: "Feb", grade: 3.7, exams: 7 },
+      { month: "Mar", grade: 3.9, exams: 9 },
+      { month: "Apr", grade: 4.0, exams: 8 },
+      { month: "May", grade: 4.2, exams: 7 },
+      { month: "Jun", grade: 4.1, exams: 6 },
+      { month: "Jul", grade: 4.3, exams: 8 },
+      { month: "Aug", grade: 4.5, exams: 9 },
+      { month: "Sep", grade: 4.6, exams: 7 },
+      { month: "Oct", grade: 4.8, exams: 11 },
+      { month: "Nov", grade: 4.9, exams: 10 },
+      { month: "Dec", grade: 5.0, exams: 12 },
+    ],
+  };
 
+  const TIMEFRAMES = Object.keys(STATS_DATA);
+
+  // Data for left navbar
+  const menuItems = [
+    { label: "Dashboard", icon: LayoutDashboard },
+    { label: "Orders", icon: Newspaper },
+    { label: "Rides", icon: UserCheck },
+    { label: "Clients", icon: Users },
+    { label: "Drivers", icon: CarTaxiFront },
+    { label: "Shift", icon: CircleDollarSign },
+    { label: "Live map", icon: Globe },
+    { label: "Car classes", icon: Car },
+    { label: "Branches", icon: GitBranch },
+    { label: "Moderators", icon: ShieldAlert },
+    { label: "Settings", icon: SlidersHorizontal },
+  ];
+
+  // Bottom user table data
   const tableData = [
     {
       name: "Sierra Ferguson",
@@ -67,6 +182,7 @@ export function DataProvider({ children }) {
     },
   ];
 
+  // Right side top drivers list
   const topDrivers = [
     {
       name: "Maharrm Hasanli",
@@ -119,7 +235,14 @@ export function DataProvider({ children }) {
   ];
 
   return (
-    <DataContext.Provider value={{ user, tableData, topDrivers }}>
+    <DataContext.Provider
+      value={{
+        tableData,
+        topDrivers,
+        menuItems,
+        TIMEFRAMES,
+        STATS_DATA,
+      }}>
       {children}
     </DataContext.Provider>
   );

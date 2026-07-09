@@ -8,11 +8,14 @@ import { BrowserRouter } from "react-router";
 import App from "./App.jsx";
 import "./index.css";
 import "./App.css";
+import { DataProvider } from "./Context/Datacontext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <DataProvider>
+        <App />
+      </DataProvider>
     </BrowserRouter>
   </StrictMode>,
 );

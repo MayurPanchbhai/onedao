@@ -2,19 +2,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
-  faThLarge,
-  faClipboardList,
-  faCar,
-  faUsers,
-  faUserCheck,
-  faClock,
-  faMapMarkerAlt,
-  faShieldAlt,
-  faSlidersH,
-  faSignOutAlt,
   faChevronRight,
   faChevronLeft,
-  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { useData } from "../Context/Datacontext";
 
@@ -95,7 +84,6 @@ export function UserList(params) {
           </table>
         </div>
 
-        {/* Pagination Footer */}
         <div className="d-flex justify-content-end align-items-center p-3 border-top border-light gap-2">
           <span className="text-muted small">1-2 of items</span>
           <button className="btn btn-sm btn-light border p-1 rounded">

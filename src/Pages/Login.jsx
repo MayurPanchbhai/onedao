@@ -1,9 +1,12 @@
 /** @format */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import profilePic from "../assets/bgImage.jpg";
 import { Link, useNavigate } from "react-router-dom";
 
 export function Login() {
+  const userDetails = JSON.parse(localStorage.getItem("UserLoginDetails"));
+  console.log("saved details", userDetails);
+
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -43,16 +46,27 @@ export function Login() {
       return;
     }
 
-    setMessage("Logged in successfully! Redirecting...");
+    if (!userDetails) {
+      setMessage("No account details found. Please register first.");
+      return;
+    }
 
+    if (
+      userDetails.email !== formdata.email ||
+      userDetails.password !== formdata.password
+    ) {
+      setMessage("Invalid email or password");
+      return;
+    }
+
+    setMessage("Logged in successfully! Redirecting...");
     setTimeout(() => {
-      navigate("/dashboard", { replace: true }); // Updated to typical post-login route
+      navigate("/dashboard", { replace: true });
     }, 1200);
   };
 
   return (
     <div className="container d-flex h-100 justify-content-center align-items-center bg-white p-3">
-      {/* Container Card with subtle shadow and rounded corners */}
       <div
         className="card border-0 shadow-lg overflow-hidden w-75"
         style={{ maxWidth: "940px", borderRadius: "24px" }}>
@@ -67,8 +81,6 @@ export function Login() {
             />
           </div>
 
-          {/* Right Side: Form Panel */}
-          {/* Fixed height match applied here using minHeight */}
           <div
             className="col-md-6 d-flex align-items-center bg-white p-4 p-lg-5"
             style={{ minHeight: "550px" }}>
@@ -89,7 +101,6 @@ export function Login() {
                 </p>
               )}
 
-              {/* Interactive Form Elements */}
               <form onSubmit={handleSubmit}>
                 {/* Email ID Field */}
                 <div className="mb-3">
@@ -109,7 +120,6 @@ export function Login() {
                   />
                 </div>
 
-                {/* Password Field */}
                 <div className="mb-3">
                   <label
                     className="form-label fw-bold text-uppercase tracking-wider small mb-1"
@@ -127,7 +137,6 @@ export function Login() {
                   />
                 </div>
 
-                {/* Submit Action Button */}
                 <button
                   type="submit"
                   className="btn btn-dark w-100 py-2.5 fw-medium mb-4"
@@ -135,7 +144,6 @@ export function Login() {
                   Login
                 </button>
 
-                {/* Redirect Text Link */}
                 <div className="text-center">
                   <span className="small" style={{ color: "#9FA2B4" }}>
                     Don't have an account?{" "}

@@ -81,3 +81,13 @@ body {
   box-shadow: 10px -10px 0px 10px #f8f9fa;
   pointer-events: none;
 }
+
+.dashboard-wrapper,
+.dashboard-wrapper * {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.6878rem;
+}
+
+.fs-7 {
+  font-size: 14px;
+}
