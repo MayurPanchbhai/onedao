@@ -11,15 +11,14 @@ export function KnowledgeBaseCard() {
     <>
       <div className="row g-3 mb-4">
         <div className="col-md-4">
-          <div className="py-4  px-3 bg-primary bg-opacity-10 rounded-3 d-flex justify-content-between align-items-center border border-primary border-opacity-10">
-            <div className="text-primary d-flex align-items-center small fw-semibold">
-              {" "}
+          <div className="py-4 px-3 bg-primary bg-opacity-10 rounded-3 d-flex justify-content-between align-items-center border border-primary border-opacity-10">
+            <span className="text-primary d-flex align-items-center small fw-semibold">
               <FontAwesomeIcon
                 icon={faFolderMinus}
                 className="text-primary fs-2 pe-2"
               />
               Total Orders
-            </div>
+            </span>
             <FontAwesomeIcon icon={faChevronRight} className="text-dark" />
           </div>
         </div>

@@ -91,3 +91,12 @@ body {
 .fs-7 {
   font-size: 14px;
 }
+
+.otp-input {
+  flex: 1;
+  min-width: 32px;
+  max-width: 46px;
+  font-size: calc(1rem + 0.5vw);
+  border-radius: 8px;
+  aspect-ratio: 1 / 1;
+}

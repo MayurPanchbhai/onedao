@@ -13,7 +13,6 @@ export function Register() {
   const [showOtpView, setShowOtpView] = useState(false);
 
   const [otp, setOtp] = useState(new Array(6).fill(""));
-
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
@@ -100,7 +99,9 @@ export function Register() {
       setMessage("Please fill out the full 6-digit verification code");
       return;
     }
-    console.log("Verifying token hash string:", fullCode);
+    setTimeout(() => {
+      navigate("/login", { replace: true });
+    }, 2000);
   };
 
   return (
@@ -141,7 +142,7 @@ export function Register() {
                     {/* Email ID Field */}
                     <div className="mb-3">
                       <label
-                        className="form-label fw-bold text-uppercase tracking-wider small mb-1"
+                        className="form-label fw-bold text-uppercase small mb-1"
                         style={{ fontSize: "0.75rem" }}>
                         Email ID
                       </label>
@@ -150,15 +151,14 @@ export function Register() {
                         name="email"
                         value={formdata.email || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3  border border-secondary-subtle custom-placeholder"
+                        className="form-control py-2 px-3  border border-secondary-subtle custom-placeholder rounded-2"
                         placeholder="Enter your email id"
-                        style={{ borderRadius: "8px" }}
                       />
                     </div>
 
                     <div className="mb-3">
                       <label
-                        className="form-label fw-bold text-uppercase tracking-wider small mb-1"
+                        className="form-label fw-bold text-uppercase  small mb-1"
                         style={{ fontSize: "0.75rem" }}>
                         Password
                       </label>
@@ -167,15 +167,14 @@ export function Register() {
                         name="password"
                         value={formdata.password || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
+                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder rounded-2"
                         placeholder="Enter your password"
-                        style={{ borderRadius: "8px" }}
                       />
                     </div>
 
                     <div className="mb-4">
                       <label
-                        className="form-label fw-bold text-uppercase tracking-wider small mb-1"
+                        className="form-label fw-bold text-uppercase small mb-1"
                         style={{ fontSize: "0.75rem" }}>
                         Confirm Password
                       </label>
@@ -184,9 +183,9 @@ export function Register() {
                         name="confirmPassword"
                         value={formdata.confirmPassword || ""}
                         onChange={handleChange}
-                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
+                        className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder rounded-2 
+                        "
                         placeholder="Enter your confirm password"
-                        style={{ borderRadius: "8px" }}
                       />
                     </div>
 
@@ -222,26 +221,20 @@ export function Register() {
 
                   <form onSubmit={handleOtpSubmit}>
                     <div
-                      className="d-flex justify-content-between gap-2 mb-4 mx-auto"
-                      style={{ maxWidth: "360px" }}>
+                      className="d-flex justify-content-between gap-1 gap-sm-2 mb-4 mx-auto w-100"
+                      style={{ maxWidth: "320px" }}>
                       {otp.map((data, index) => (
                         <input
                           key={index}
                           type="tel"
                           pattern="[0-9]*"
                           inputMode="numeric"
-                          maxLength="1"
+                          maxLength={1}
                           value={data}
                           onChange={(e) => handleOtpChange(e.target, index)}
                           onKeyDown={(e) => handleKeyDown(e, index)}
                           onFocus={(e) => e.target.select()}
-                          className="form-control text-center p-0 fw-semibold text-dark border border-secondary-subtle custom-placeholder"
-                          style={{
-                            width: "46px",
-                            height: "46px",
-                            fontSize: "1.2rem",
-                            borderRadius: "8px",
-                          }}
+                          className=" form-control text-center p-0 fw-semibold text-dark border border-secondary-subtle custom-placeholder otp-input"
                         />
                       ))}
                     </div>
@@ -252,8 +245,7 @@ export function Register() {
 
                     <button
                       type="submit"
-                      className="btn btn-dark w-100 py-2.5 fw-normal"
-                      style={{ borderRadius: "10px", backgroundColor: "#111" }}>
+                      className="btn btn-dark w-100 py-2 fw-normal ">
                       Proceed
                     </button>
                   </form>

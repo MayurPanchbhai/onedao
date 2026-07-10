@@ -72,14 +72,12 @@ export function Dashboard() {
         </ul>
       </div>
 
-      <div
-        className="flex-grow-1 pe-4 ps-1 py-4 my-3 bg-light"
-        style={{ borderRadius: "24px" }}>
+      <div className="flex-grow-1 pe-4 ps-1 py-4 my-3 bg-light rounded-4">
         {/* Top Content Header section */}
         <div className="d-flex justify-content-between align-items-center ps-4 mb-4">
           <div className="d-flex align-items-center gap-3">
             <button className="btn btn-sm btn-light border-0">
-              <FontAwesomeIcon icon={faBars} size="lg" />
+              <FontAwesomeIcon icon={faBars} className="fs-5" />
             </button>
             <h5 className="m-0 fs-4 fw-lighter text-dark">
               Good morning,{" "}

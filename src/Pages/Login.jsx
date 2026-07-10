@@ -116,7 +116,6 @@ export function Login() {
                     onChange={handleChange}
                     className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                     placeholder="Enter your email id"
-                    style={{ borderRadius: "8px" }}
                   />
                 </div>
 
@@ -133,14 +132,13 @@ export function Login() {
                     onChange={handleChange}
                     className="form-control py-2 px-3 text-secondary border border-secondary-subtle custom-placeholder"
                     placeholder="Enter your password"
-                    style={{ borderRadius: "8px" }}
                   />
                 </div>
 
                 <button
                   type="submit"
                   className="btn btn-dark w-100 py-2.5 fw-medium mb-4"
-                  style={{ borderRadius: "8px", backgroundColor: "#111" }}>
+                  style={{ backgroundColor: "#111" }}>
                   Login
                 </button>
 
